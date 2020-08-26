@@ -1,0 +1,8 @@
+{
+  "name": "oreilly-approval-demo-worker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "camunda-external-task-client-js": "2.0.0"
+  }
+}
