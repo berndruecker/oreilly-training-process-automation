@@ -22,6 +22,13 @@ Please follow the Installation Guide in https://docs.camunda.org/manual/latest/u
 docker run -d -p 8080:8080 camunda/camunda-bpm-platform:run-latest
 ```
 
+If you have enterprise credentials (e.g. a trial) for Camunda, you can also run the enterprise edition:
+
+```
+docker login registry.camunda.cloud
+docker run -d -p 8080:8080 registry.camunda.cloud/cambpm-ee/camunda-bpm-platform-ee:run-7.13.4
+```
+
 #### Camunda Modeler
 
 Download the Camunda Modeler: https://camunda.com/download/modeler/. Follow the instructions there, basically you just have to unzip and start the exectuable.
