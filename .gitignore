@@ -1,0 +1,7 @@
+node_modules
+package-lock.json
+.project
+.classpath
+.settings
+target
+/camunda-instance/h2-camunda-db.mv.db

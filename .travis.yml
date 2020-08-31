@@ -1,0 +1,29 @@
+language: java
+
+sudo: true
+
+script: 
+  - cd camunda-instance
+  - mvn --settings .maven-settings.xml clean package
+  - cd ..
+
+services:
+  - docker
+
+cache:
+  directories:
+    - $HOME/.m2
+jdk:
+  - openjdk11
+os:
+  - linux
+
+branches:
+  only:
+    - master
+
+after_success:
+  - docker login -u _json_key -p "$(echo ${GCR_JSON_KEY_BASE64} | base64 -d)" https://eu.gcr.io
+  - docker build -t oreilly-camunda-instance ./camunda-instance/
+  - docker tag oreilly-camunda-instance eu.gcr.io/${GCP_PROJECT_NAME}/oreilly-camunda-instance
+  - docker push eu.gcr.io/${GCP_PROJECT_NAME}/oreilly-camunda-instance

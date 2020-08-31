@@ -41,6 +41,16 @@ Go to Camunda Cockpit via http://localhost:8080/camunda/app/cockpit/ (User: demo
 Go to Camunda Tasklist via http://localhost:8080/camunda/app/tasklist/ (User: demo, Password: demo), add a simple filter, open the task, claim it and complete the task
 Start a new process instance via tasklist
 
+You can also use CURL if you have it available on your system
+
+```
+curl \
+-H "Content-Type: application/json" \
+-X POST \
+-d '{"variables":{"something" : {"value" : "Cake", "type": "String"}}}}' \
+http://localhost:8080/engine-rest/process-definition/key/OReillyDemo/start
+```
+
 
 ### Managed Camunda
 
