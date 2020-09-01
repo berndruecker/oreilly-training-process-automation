@@ -158,15 +158,21 @@ https://oreilly-training-camunda-instance-hshwynfxmq-uc.a.run.app/engine-rest/pr
 ## Option 3: Watch Recording
 
 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=XimowIZLWD8" target="_blank"><img src="http://img.youtube.com/vi/XimowIZLWD8/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
 
 
 
 
 # Lab 2: Implement a Service Task
 
-You have options:
+You have multiple options to implement the behavior behind the service task:
 
-1. Java Worker
-2. NodeJS Worker
-3. C# Worker
+1. Java Worker: [demo/worker-java/](demo/worker-java/)
+2. NodeJS Worker: [demo/worker-nodejs/](demo/worker-nodejs/)
+3. C# Worker: [demo/worker-csharp/](demo/worker-csharp/)
 4. Plain REST
+
+## Option 1: Java Worker
+## Option 2: NodeJs Worker
+## Option 3: C# Worker
+## Option 4: Plain REST

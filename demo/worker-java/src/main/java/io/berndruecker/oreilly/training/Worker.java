@@ -3,7 +3,7 @@ package io.berndruecker.oreilly.training;
 import org.camunda.bpm.client.ExternalTaskClient;
 
 
-public class App {
+public class Worker {
   
   public static void main(String[] args) {
     // bootstrap the client

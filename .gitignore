@@ -5,3 +5,6 @@ package-lock.json
 .settings
 target
 /camunda-instance/h2-camunda-db.mv.db
+obj
+bin
+.vscode
