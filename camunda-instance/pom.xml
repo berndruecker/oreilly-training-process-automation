@@ -13,7 +13,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<camunda.version>7.13.3-ee</camunda.version>
+		<camunda.version>7.13.4-ee</camunda.version>
 	</properties>
 
 	<groupId>io.berndruecker.oreilly.training</groupId>
