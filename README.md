@@ -170,6 +170,10 @@ You have multiple options to implement the behavior behind the service task. Fol
 2. NodeJS Worker: [demo/worker-nodejs/](demo/worker-nodejs/)
 3. C# Worker: [demo/worker-csharp/](demo/worker-csharp/)
 4. Plain REST: See below
+5. Watch the recording:
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Jfo-TCSh6aw" target="_blank"><img src="http://img.youtube.com/vi/Jfo-TCSh6aw/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
+
 
 ## Option 4: Plain REST
 
