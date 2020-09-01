@@ -1,4 +1,4 @@
-# External Task Worker / NodeJS
+# External Task Worker / C#  Dotnet Core
 
 * Download/clone the code in this folder. You might need to adjust the external topic name in the file `Worker.cs`. In the demo code it is `celebrate`.
 
