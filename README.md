@@ -157,22 +157,76 @@ https://oreilly-training-camunda-instance-hshwynfxmq-uc.a.run.app/engine-rest/pr
 
 ## Option 3: Watch Recording
 
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=XimowIZLWD8" target="_blank"><img src="http://img.youtube.com/vi/XimowIZLWD8/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=So1sanX1FIE" target="_blank"><img src="http://img.youtube.com/vi/So1sanX1FIE/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
 
 
 
 
 # Lab 2: Implement a Service Task
 
-You have multiple options to implement the behavior behind the service task:
+You have multiple options to implement the behavior behind the service task. Follow the instructions for the language you prefer. The labs assume that you have an environment already installed on your machine!
 
 1. Java Worker: [demo/worker-java/](demo/worker-java/)
 2. NodeJS Worker: [demo/worker-nodejs/](demo/worker-nodejs/)
 3. C# Worker: [demo/worker-csharp/](demo/worker-csharp/)
-4. Plain REST
+4. Plain REST: See below
 
-## Option 1: Java Worker
-## Option 2: NodeJs Worker
-## Option 3: C# Worker
 ## Option 4: Plain REST
+
+* Fetch new tasks (make sure you set the `topicName` according to the external task topic in your service task, you need to ajust the URL if you access the hosted Camunda instance):
+
+```
+curl \
+-H "Content-Type: application/json" \
+-X POST \
+-d '{"workerId":"worker123","maxTasks":1,"usePriority":true,"topics":[{"topicName": "celebrate", "lockDuration": 10000, "variables": ["something"]}]}' \
+http://localhost:8080/engine-rest/external-task/fetchAndLock
+```
+
+This gives you the next task, for example:
+
+```
+[{
+	"activityId": "Task_Celebrate",
+	"activityInstanceId": "Task_Celebrate:e4350f9c-ec51-11ea-9e96-0242ac110002",
+	"executionId": "e4350f9b-ec51-11ea-9e96-0242ac110002",
+	"id": "e43584cd-ec51-11ea-9e96-0242ac110002",
+	"lockExpirationTime": "2020-09-01T12:52:44.338+0000",
+	"processDefinitionId": "OReillyDemo:1:d81f575a-ec51-11ea-9e96-0242ac110002",
+	"processDefinitionKey": "OReillyDemo",
+	"processInstanceId": "d8a17fab-ec51-11ea-9e96-0242ac110002",
+	"retries": null,
+	"suspended": false,
+	"workerId": "worker123",
+	"topicName": "celebrate",
+	"tenantId": null,
+	"variables": {
+		"something": {
+			"type": "String",
+			"value": "",
+			"valueInfo": {}
+		}
+	},
+	"priority": 0,
+	"businessKey": "default"
+}]
+```
+
+Now you can complete exactly this task:
+
+```
+curl \
+-H "Content-Type: application/json" \
+-X POST \
+-d '{"workerId":"worker123", "variables": {"approved": {"value": true}}}' \
+http://localhost:8080/engine-rest/external-task/EXTERNAL_TASK_ID/complete
+```
+Replace the EXTERNAL_TASK_ID with the `id` from the reysulting json, in this example:
+
+```
+curl \
+-H "Content-Type: application/json" \
+-X POST \
+-d '{"workerId":"worker123", "variables": {"approved": {"value": true}}}' \
+http://localhost:8080/engine-rest/external-task/e43584cd-ec51-11ea-9e96-0242ac110002/complete
+```

@@ -1,6 +1,10 @@
 # External Task Worker / C#  Dotnet Core
 
+* Requirements:
+  * Dotnet Core >= 2
+
 * Download/clone the code in this folder. You might need to adjust the external topic name in the file `Worker.cs`. In the demo code it is `celebrate`.
+* If you use the managed Camunda instane you need to adjust the URL for Camunda in the file `Worker.cs`.
 
 * Run the worker:
 
