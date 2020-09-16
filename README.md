@@ -19,7 +19,7 @@ The easiest start to use Camunda is the so called "Camunda Run" distribution. Th
 Please follow the Installation Guide in https://docs.camunda.org/manual/latest/user-guide/camunda-bpm-run/#starting-with-camunda-bpm-run. This also explains how to run it via docker, which is actually the easiest option:
 
 ```
-docker run -d -p 8080:8080 camunda/camunda-bpm-platform:run-latest
+docker run -d -p 8080:8080 camunda/camunda-bpm-platform:run-7.13.0
 ```
 
 If you have enterprise credentials (e.g. a trial) for Camunda, you can also run the enterprise edition:
