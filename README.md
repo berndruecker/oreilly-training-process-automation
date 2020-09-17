@@ -1,5 +1,9 @@
 # Training "Process Automation in Modern Architectures"
 
+If you have any questions while doing the lab:
+
+* Ask via chat in the training
+* Ask in the Camunda Forum: https://forum.camunda.org/
 
 # Lab 1: Execute Your First BPMN Process
 
