@@ -6,8 +6,8 @@
 
 * Download/clone the code in this folder.
 
-* You might need to adjust the external topic name in the file `Worker.java`. In the demo code it is `celebrate`.
-* If you use the managed Camunda instane you need to adjust the URL for Camunda in the file `Worker.java`.
+* You might need to adjust the task type name in the file `Worker.java`. In the demo code it is `celebrate`.
+* You need to set your Camunda cloud client connection details in the file `application.properties`. Simply replace the existing sample values.
 
 * Run the worker:
 
@@ -18,13 +18,12 @@ mvn package exec:java
 * You should see something like this:
 
 ```
-[INFO]
-[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ oreilly-approval-demo-worker ---
-[INFO] Building jar: C:\DEV\oreilly\oreilly-training-process-automation\demo\worker-java\target\oreilly-approval-demo-worker-1.0-SNAPSHOT.jar
-[INFO]
-[INFO] --- exec-maven-plugin:1.6.0:java (default-cli) @ oreilly-approval-demo-worker ---
-SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
-SLF4J: Defaulting to no-operation (NOP) logger implementation
-SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-Yeah, 'Book' was approved and can now be ordered! Please celebrate accordingly!
+2021-06-28 14:55:03.272  INFO 7720 --- [g.Worker.main()] i.c.z.s.c.c.p.ZeebeWorkerPostProcessor   : zeebeWorker: io.camunda.zeebe.spring.client.bean.ClassInfo@4d68f34
+b
+2021-06-28 14:55:03.779  INFO 7720 --- [g.Worker.main()] i.c.z.s.c.c.p.ZeebeWorkerPostProcessor   : register job worker: io.camunda.zeebe.spring.client.bean.value.Zee
+beWorkerValue@7fcab89e
+2021-06-28 14:55:03.786  INFO 7720 --- [g.Worker.main()] io.berndruecker.oreilly.training.Worker  : Started Worker in 1.469 seconds (JVM running for 4.018)
+2021-06-28 14:55:39.610  INFO 7720 --- [ault-executor-0] io.camunda.zeebe.client.job.poller       : Activated 1 jobs for worker default and job type celebrate
+Yeah, your request was approved and can now be ordered! Please celebrate accordingly!
 ```
+

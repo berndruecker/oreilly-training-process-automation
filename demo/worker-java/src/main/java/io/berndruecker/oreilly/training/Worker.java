@@ -1,27 +1,33 @@
 package io.berndruecker.oreilly.training;
 
-import org.camunda.bpm.client.ExternalTaskClient;
 
+import io.camunda.zeebe.client.api.response.ActivatedJob;
+import io.camunda.zeebe.client.api.worker.JobClient;
+import io.camunda.zeebe.spring.client.EnableZeebeClient;
+import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
+@EnableZeebeClient
 public class Worker {
-  
-  public static void main(String[] args) {
-    // bootstrap the client
-    ExternalTaskClient client = ExternalTaskClient.create().baseUrl("http://localhost:8080/engine-rest").build();
 
-    // subscribe to the topic
-    client.subscribe("celebrate").handler((externalTask, externalTaskService) -> {
+    public static void main(String[] args) {
+        SpringApplication.run(Worker.class, args);
+    }
+
+  @ZeebeWorker(type = "celebrate")
+  public void celebrate(final JobClient client, final ActivatedJob job) {
 
       // retrieve a variable from the process instance
-      String something = externalTask.getVariable("something");
+      String something = (String) job.getVariablesAsMap().get("something");
 
       // Do the business logic
-      System.out.println("Yeah, '"+something+"' was approved and can now be ordered! Please celebrate accordingly!");
+      System.out.println("Yeah, your request was approved and can now be ordered! Please celebrate accordingly!");
 
       // complete the external task
-      externalTaskService.complete(externalTask);
-
-    }).open();
+      client.newCompleteCommand(job.getKey()).send()
+              .exceptionally((throwable -> {throw new RuntimeException("Could not complete job", throwable);}));
   }
   
 }

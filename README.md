@@ -3,240 +3,104 @@
 If you have any questions while doing the lab:
 
 * Ask via chat in the training
-* Ask in the Camunda Forum: https://forum.camunda.org/
+* Ask in the Camunda Cloud Forum: https://forum.camunda.io/
 
 # Lab 1: Execute Your First BPMN Process
 
-You have three options to do this lab, depending on your level of interest:
+You have two options doing this lab, depending on your level of interest:
 
-1. **Install Camunda locally**: This needs either Docker or a Java runtime locally. Do this if you program regularly and love to fully understand what you are doing. This setup makes it easy to play around with the environment afterwards.
-2. **Leverage a managed Camunda instance**: You will use a prepared environment in the cloud, but still can model and deploy yourself and write some code in Java, NodeJS or C# in a later step. Do this if you want to get your hands dirty at least a bit, but rely on a prepared environment to keep things simple.
-3. **Watch the recording**: You can simply watch a walk through recording
-
-
-## Option 1: Local Camunda Installation
-
-### Step 1: Camunda Run
-
-The easiest start to use Camunda is the so called "Camunda Run" distribution. This starts Camunda as an own server and allows you to connect to it via HTTP.
-
-Please follow the Installation Guide in https://docs.camunda.org/manual/latest/user-guide/camunda-bpm-run/#starting-with-camunda-bpm-run. This also explains how to run it via docker, which is actually the easiest option:
-
-```
-docker pull camunda/camunda-bpm-platform:run-latest
-docker run -d -p 8080:8080 camunda/camunda-bpm-platform:run-latest
-```
-
-If you have enterprise credentials (e.g. a trial) for Camunda, you can also run the enterprise edition:
-
-```
-docker login registry.camunda.cloud
-docker pull registry.camunda.cloud/cambpm-ee/camunda-bpm-platform-ee:run-7.14.1
-docker run -d -p 8080:8080 registry.camunda.cloud/cambpm-ee/camunda-bpm-platform-ee:run-7.14.1
-```
-
-### Step 2: Camunda Modeler
-
-Download the Camunda Modeler: https://camunda.com/download/modeler/. Follow the instructions.
-
-### Step 3: Model the BPMN, deploy and run it
-
-Model your first BPMN process using the Camunda Modeler. This contains a *user task*, an *XOR gateway* and a *service task*. If you struggle, you can find the recording below, that will walk you through it.
-
-![Process Model](docs/final-process.png)
-
-In order to configure the process model for execution
-
-* Add an assignee to the user task (use the "demo" user):
-
-![Configure the user task](docs/userTask.png)
-
-* Add an auto generated form displayed in the UI that at least asks for the process variable `approved`:
-
-![Configure the user task](docs/userTaskForm.png)
-
-* Configure the XOR gateway (decision) point by adding an expression to both outgoing sequence flows (arrows). One should be `#{approved}` and the other one `#{not approved}`
-
-![Configure the gateway](docs/gateway.png)
-
-* Configure the service task to use the external task topic `celebrate`:
-
-![Configure the service task](docs/serviceTask.png)
-
-* Deploy the model to your local Camunda Run instance listening on port 8080:
-
-![Deploy the process model](docs/deploy.png)
-
-* Start a new process instance from the modeler:
-
-![start process instance](docs/startInstance.png)
-
-* Go to Camunda Cockpit via http://localhost:8080/camunda/app/cockpit/ (User: demo, Password: demo) and inspect the process instance
-
-* Go to Camunda Tasklist via http://localhost:8080/camunda/app/tasklist/ (User: demo, Password: demo) and
-  * add the simple filter via the link provided
-  * show the task list
-  * open the task
-  * select a value for `àpproved` and complete the task
-
-* You can start further process instances via tasklist
-
-* You can also use CURL if you have it available on your system
-
-```
-curl \
--H "Content-Type: application/json" \
--X POST \
--d '{"variables":{"something" : {"value" : "Cake", "type": "String"}}}}' \
-http://localhost:8080/engine-rest/process-definition/key/OReillyDemo/start
-```
+1. **Run on Camunda Cloud (managed workflow engine)**: You will use a managed environment in the cloud, but still can model and deploy yourself and write some code in Java, NodeJS or C# in a later step. You should prefer this approach if you want to get your hands dirty at least a bit to understand how it is really working.
+2. **Watch the recording**: You can simply watch a walk through recording
 
 
+## Option 1: Camunda Cloud
 
+### Step 1: Create Managed Workflow Engine
 
+* Create a free account within Camunda Cloud via https://console.cloud.camunda.io/. You will start a 30-days trial to play around with it for free.
 
-## Option 2: Managed Camunda
+* Create a "Zeebe Broker", which is the managed workflow engine within Camunda Cloud. You can simply use a "Development" cluster:
 
-You will use the managed Camunda instance on this URL: https://oreilly-training-camunda-instance-hshwynfxmq-uc.a.run.app/
+![Create Cluster](docs/createCluster.png)
+
+* Create API/Client credentials to be able to connect to that cluster from the outside (e.g. Camunda Modeler or service tasks in lab2):
+
+![Create API Client](docs/createApiClient.png)
+
+You can download these credentials to be sure to have them later when you need them:
+
+![Client Credentials](docs/clientCredentialsDownload.png)
 
 
 ### Step 1: Camunda Modeler
 
-Download the Camunda Modeler: https://camunda.com/download/modeler/. Follow the instructions.
+Download the Camunda Modeler and follow the installation instructions found here: https://camunda.com/download/modeler/.
 
 
 ### Step 2: Model the BPMN, deploy and run it
 
-Model your first BPMN process using the Camunda Modeler. This contains a *user task*, an *XOR gateway* and a *service task*. If you struggle, you can find the recording below, that will walk you through it.
+Model your first BPMN process using the Camunda Modeler. Make sure to create a BPMN model that targets Camunda Cloud:
+
+![Process Model](docs/modelerCreate.png)
+
+Your model shall contain a *user task*, an *XOR gateway* and a *service task*. If you struggle, you can find the recording below, that will walk you through it. Note, that this training does not focus on user tasks or user forms, so we will use only a very simplistic version of user tasks.
 
 ![Process Model](docs/final-process.png)
 
 In order to configure the process model for execution
 
-* Add an assignee to the user task (use the "demo" user):
+* Adjust the process definition id. Click somewhere in the blank area on your process model to do this. Use e.g. `oreilly`, as seen above.
 
-![Configure the user task](docs/userTask.png)
-
-* Add an auto generated form displayed in the UI that at least asks for the process variable `approved`:
-
-![Configure the user task](docs/userTaskForm.png)
-
-* Configure the XOR gateway (decision) point by adding an expression to both outgoing sequence flows (arrows). One should be `#{approved}` and the other one `#{not approved}`
+* Configure the XOR gateway (decision) point by adding an expression to both outgoing sequence flows (arrows). One should be `= approved` and the other one `= approved=false`
 
 ![Configure the gateway](docs/gateway.png)
 
-* Configure the service task to use an external task topic. You can basically name it as you like, but sue something you consider unique in the context of this training, e.g. your name and city or the like: `celebrate-Bernd-Berlin`:
+* Configure the service task type. You can basically name it as you like, e.g. `celebrate`:
 
 ![Configure the service task](docs/serviceTask.png)
 
-* Adjust the process id, to avoid that different training attendees overwrite their models. Click somewhere in the blank area on your process model to do this. Use something you consider unique in the context of this training, e.g. your name and city or the like:
-
-![Configure the process definition id](docs/processDefinitionKey.png)
-
-* Deploy the model to Camunda, therefor change the "REST Endpoint" to `https://oreilly-training-camunda-instance-hshwynfxmq-uc.a.run.app/`:
+* Deploy the model to Camunda Cloud, therefor change the target to "Camunda Cloud" and enter the endpoint details you just downloaded earlier for your cluster. Mark the checkbox to save these connection information for later:
 
 ![Deploy the process model](docs/deployCloud.png)
 
-* Start a new process instance from the modeler:
+* You can now start a new process instance from the modeler:
 
 ![start process instance](docs/startInstance.png)
 
-* Go to Camunda Cockpit via https://oreilly-training-camunda-instance-hshwynfxmq-uc.a.run.app/camunda/app/cockpit/ (User: demo, Password: demo) and inspect the process instance
+* Go to Operate from your Camunda Cloud Console to inspect your just started process instances, waiting in the user task:
 
-* Go to Camunda Tasklist via https://oreilly-training-camunda-instance-hshwynfxmq-uc.a.run.app/camunda/app/tasklist/ (User: demo, Password: demo) and
-  * add the simple filter via the link provided
-  * show the task list
-  * open the task
-  * select a value for `àpproved` and complete the task
+![start process instance](docs/operate.png)
 
-* You can start further process instances via tasklist
 
-* You can also use CURL if you have it available on your system (adjust the `process definition id` to the one you set!):
+* Go to Tasklist from your Camunda Cloud Console and you will find a user task waiting for approval:
+  * Click on `claim` 
+  * Add variable `approved` with value `true` or `false`
 
-```
-curl \
--H "Content-Type: application/json" \
--X POST \
--d '{"variables":{"something" : {"value" : "Cake", "type": "String"}}}}' \
-https://oreilly-training-camunda-instance-hshwynfxmq-uc.a.run.app/engine-rest/process-definition/key/OReillyDemo-Bernd6352/start
-```
+![start process instance](docs/tasklist.png)
 
-## Option 3: Watch Recording
+* If you go back to Operate you will see the process instance waiting to `celebrate`, which we will do in lab2. 
+
+Congrats!
+
+## Option 2: Watch Recording
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=So1sanX1FIE" target="_blank"><img src="http://img.youtube.com/vi/So1sanX1FIE/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
 
 
 
 
+
+
+
+
+
 # Lab 2: Implement a Service Task
 
-You have multiple options to implement the behavior behind the service task. Follow the instructions for the language you prefer. The labs assume that you have an environment already installed on your machine!
+You have many options to implement the behavior behind the service task. Follow the instructions for the language you prefer below. The labs assume that you have the necessary envirionment for that programming language already installed on your machine!
 
 1. Java Worker: [demo/worker-java/](demo/worker-java/)
 2. NodeJS Worker: [demo/worker-nodejs/](demo/worker-nodejs/)
 3. C# Worker: [demo/worker-csharp/](demo/worker-csharp/)
-4. Plain REST: See below
 5. Watch the recording:
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=Jfo-TCSh6aw" target="_blank"><img src="http://img.youtube.com/vi/Jfo-TCSh6aw/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
-
-
-## Option 4: Plain REST
-
-* Fetch new tasks (make sure you set the `topicName` according to the external task topic in your service task, you need to ajust the URL if you access the hosted Camunda instance):
-
-```
-curl \
--H "Content-Type: application/json" \
--X POST \
--d '{"workerId":"worker123","maxTasks":1,"usePriority":true,"topics":[{"topicName": "celebrate", "lockDuration": 10000, "variables": ["something"]}]}' \
-http://localhost:8080/engine-rest/external-task/fetchAndLock
-```
-
-This gives you the next task, for example:
-
-```
-[{
-	"activityId": "Task_Celebrate",
-	"activityInstanceId": "Task_Celebrate:e4350f9c-ec51-11ea-9e96-0242ac110002",
-	"executionId": "e4350f9b-ec51-11ea-9e96-0242ac110002",
-	"id": "e43584cd-ec51-11ea-9e96-0242ac110002",
-	"lockExpirationTime": "2020-09-01T12:52:44.338+0000",
-	"processDefinitionId": "OReillyDemo:1:d81f575a-ec51-11ea-9e96-0242ac110002",
-	"processDefinitionKey": "OReillyDemo",
-	"processInstanceId": "d8a17fab-ec51-11ea-9e96-0242ac110002",
-	"retries": null,
-	"suspended": false,
-	"workerId": "worker123",
-	"topicName": "celebrate",
-	"tenantId": null,
-	"variables": {
-		"something": {
-			"type": "String",
-			"value": "",
-			"valueInfo": {}
-		}
-	},
-	"priority": 0,
-	"businessKey": "default"
-}]
-```
-
-Now you can complete exactly this task:
-
-```
-curl \
--H "Content-Type: application/json" \
--X POST \
--d '{"workerId":"worker123", "variables": {"approved": {"value": true}}}' \
-http://localhost:8080/engine-rest/external-task/EXTERNAL_TASK_ID/complete
-```
-Replace the EXTERNAL_TASK_ID with the `id` from the reysulting json, in this example:
-
-```
-curl \
--H "Content-Type: application/json" \
--X POST \
--d '{"workerId":"worker123", "variables": {"approved": {"value": true}}}' \
-http://localhost:8080/engine-rest/external-task/e43584cd-ec51-11ea-9e96-0242ac110002/complete
-```
