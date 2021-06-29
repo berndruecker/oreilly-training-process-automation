@@ -1,106 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_07lf7m4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.1.0">
-  <bpmn:process id="OReillyDemo" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_SomethingRequested" name="Something requested">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="something" label="What&#39;s that something you want to get approved?" type="string" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:outgoing>Flow_1demrqx</bpmn:outgoing>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_10jgd8m" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+  <bpmn:process id="oreilly" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0jporap</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_1demrqx" sourceRef="StartEvent_SomethingRequested" targetRef="Task_ApproveSomething" />
-    <bpmn:userTask id="Task_ApproveSomething" name="Approve something" camunda:assignee="demo">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="something" type="string" />
-          <camunda:formField id="approved" label="Approve?" type="boolean" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1demrqx</bpmn:incoming>
-      <bpmn:outgoing>Flow_0zlgk1a</bpmn:outgoing>
+    <bpmn:sequenceFlow id="Flow_0jporap" sourceRef="StartEvent_1" targetRef="Activity_0odsulx" />
+    <bpmn:userTask id="Activity_0odsulx" name="Approve something">
+      <bpmn:incoming>Flow_0jporap</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tb3bqs</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Gateway_Approved" name="Approved?">
-      <bpmn:incoming>Flow_0zlgk1a</bpmn:incoming>
-      <bpmn:outgoing>Flow_12f1f9f</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1gfgxkc</bpmn:outgoing>
+    <bpmn:exclusiveGateway id="Gateway_1km1zpn" name="Approved?">
+      <bpmn:incoming>Flow_1tb3bqs</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ia20to</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17fm9o8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0zlgk1a" sourceRef="Task_ApproveSomething" targetRef="Gateway_Approved" />
-    <bpmn:sequenceFlow id="Flow_12f1f9f" name="yes" sourceRef="Gateway_Approved" targetRef="Task_Celebrate">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{approved}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_1tb3bqs" sourceRef="Activity_0odsulx" targetRef="Gateway_1km1zpn" />
+    <bpmn:sequenceFlow id="Flow_0ia20to" name="yes" sourceRef="Gateway_1km1zpn" targetRef="Activity_1wz9j8e">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= approved</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:endEvent id="EndEvent_Rejected" name="Rejected">
-      <bpmn:incoming>Flow_1gfgxkc</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1gfgxkc" name="no" sourceRef="Gateway_Approved" targetRef="EndEvent_Rejected">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not approved}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:endEvent id="EndEvent_Done" name="Done">
-      <bpmn:incoming>Flow_17ec61l</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_17ec61l" sourceRef="Task_Celebrate" targetRef="EndEvent_Done" />
-    <bpmn:serviceTask id="Task_Celebrate" name="Celebrate" camunda:type="external" camunda:topic="celebrate">
-      <bpmn:incoming>Flow_12f1f9f</bpmn:incoming>
-      <bpmn:outgoing>Flow_17ec61l</bpmn:outgoing>
+    <bpmn:serviceTask id="Activity_1wz9j8e" name="Celebrate">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="celebrate" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ia20to</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dvmvfv</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1w0bk4t" name="Done">
+      <bpmn:incoming>Flow_1dvmvfv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1dvmvfv" sourceRef="Activity_1wz9j8e" targetRef="Event_1w0bk4t" />
+    <bpmn:endEvent id="Event_1boopfs" name="Rejected">
+      <bpmn:incoming>Flow_17fm9o8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_17fm9o8" name="no" sourceRef="Gateway_1km1zpn" targetRef="Event_1boopfs">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= approved=false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OReillyDemo">
-      <bpmndi:BPMNEdge id="Flow_17ec61l_di" bpmnElement="Flow_17ec61l">
-        <di:waypoint x="630" y="177" />
-        <di:waypoint x="692" y="177" />
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="oreilly">
+      <bpmndi:BPMNEdge id="Flow_0jporap_di" bpmnElement="Flow_0jporap">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1gfgxkc_di" bpmnElement="Flow_1gfgxkc">
-        <di:waypoint x="450" y="202" />
-        <di:waypoint x="450" y="272" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="459" y="243" width="13" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_1tb3bqs_di" bpmnElement="Flow_1tb3bqs">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="425" y="177" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_12f1f9f_di" bpmnElement="Flow_12f1f9f">
+      <bpmndi:BPMNEdge id="Flow_0ia20to_di" bpmnElement="Flow_0ia20to">
         <di:waypoint x="475" y="177" />
         <di:waypoint x="530" y="177" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="494" y="159" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0zlgk1a_di" bpmnElement="Flow_0zlgk1a">
-        <di:waypoint x="370" y="177" />
-        <di:waypoint x="425" y="177" />
+      <bpmndi:BPMNEdge id="Flow_1dvmvfv_di" bpmnElement="Flow_1dvmvfv">
+        <di:waypoint x="630" y="177" />
+        <di:waypoint x="692" y="177" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1demrqx_di" bpmnElement="Flow_1demrqx">
-        <di:waypoint x="215" y="177" />
-        <di:waypoint x="270" y="177" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_SomethingRequested">
-        <dc:Bounds x="179" y="159" width="36" height="36" />
+      <bpmndi:BPMNEdge id="Flow_17fm9o8_di" bpmnElement="Flow_17fm9o8">
+        <di:waypoint x="450" y="202" />
+        <di:waypoint x="450" y="272" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="171" y="202" width="53" height="27" />
+          <dc:Bounds x="459" y="234" width="13" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0meoaym_di" bpmnElement="Task_ApproveSomething">
+      <bpmndi:BPMNShape id="Activity_1qaxd1t_di" bpmnElement="Activity_0odsulx">
         <dc:Bounds x="270" y="137" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0m3c4h9_di" bpmnElement="Gateway_Approved" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_1km1zpn_di" bpmnElement="Gateway_1km1zpn" isMarkerVisible="true">
         <dc:Bounds x="425" y="152" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="424" y="122" width="53" height="14" />
+          <dc:Bounds x="423" y="123" width="53" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0gk245b_di" bpmnElement="EndEvent_Rejected">
-        <dc:Bounds x="432" y="272" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="428" y="315" width="44" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_1ys3rqj_di" bpmnElement="Activity_1wz9j8e">
+        <dc:Bounds x="530" y="137" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0f48br2_di" bpmnElement="EndEvent_Done">
+      <bpmndi:BPMNShape id="Event_1w0bk4t_di" bpmnElement="Event_1w0bk4t">
         <dc:Bounds x="692" y="159" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="697" y="202" width="27" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1dbw166_di" bpmnElement="Task_Celebrate">
-        <dc:Bounds x="530" y="137" width="100" height="80" />
+      <bpmndi:BPMNShape id="Event_1boopfs_di" bpmnElement="Event_1boopfs">
+        <dc:Bounds x="432" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="428" y="315" width="44" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

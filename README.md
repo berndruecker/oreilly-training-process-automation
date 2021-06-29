@@ -17,7 +17,7 @@ You have two options doing this lab, depending on your level of interest:
 
 ### Step 1: Create Managed Workflow Engine
 
-* Create a free account within Camunda Cloud via https://console.cloud.camunda.io/. You will start a 30-days trial to play around with it for free.
+* Create a free account within Camunda Cloud via https://accounts.cloud.camunda.io/signup?campaign=oreilly. You will start a 30-days trial to play around with it for free.
 
 * Create a "Zeebe Broker", which is the managed workflow engine within Camunda Cloud. You can simply use a "Development" cluster:
 
@@ -84,7 +84,7 @@ Congrats!
 
 ## Option 2: Watch Recording
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=So1sanX1FIE" target="_blank"><img src="http://img.youtube.com/vi/So1sanX1FIE/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=6DTtcNdUmE4" target="_blank"><img src="http://img.youtube.com/vi/6DTtcNdUmE4/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
 
 
 
@@ -103,4 +103,4 @@ You have many options to implement the behavior behind the service task. Follow 
 3. C# Worker: [demo/worker-csharp/](demo/worker-csharp/)
 5. Watch the recording:
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=Jfo-TCSh6aw" target="_blank"><img src="http://img.youtube.com/vi/Jfo-TCSh6aw/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=LcRZTagj76Q" target="_blank"><img src="http://img.youtube.com/vi/LcRZTagj76Q/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
