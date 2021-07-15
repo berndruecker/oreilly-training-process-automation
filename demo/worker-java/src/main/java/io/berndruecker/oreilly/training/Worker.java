@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableZeebeClient
 public class Worker {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
         SpringApplication.run(Worker.class, args);
     }
 
@@ -20,14 +20,14 @@ public class Worker {
   public void celebrate(final JobClient client, final ActivatedJob job) {
 
       // retrieve a variable from the process instance
-      String something = (String) job.getVariablesAsMap().get("something");
+      Object approved = job.getVariablesAsMap().get("approved");
 
       // Do the business logic
-      System.out.println("Yeah, your request was approved and can now be ordered! Please celebrate accordingly!");
+      System.out.println("Yeah, your request was "+approved+" and can now be ordered! Please celebrate accordingly!");
 
       // complete the external task
       client.newCompleteCommand(job.getKey()).send()
               .exceptionally((throwable -> {throw new RuntimeException("Could not complete job", throwable);}));
   }
-  
+
 }
